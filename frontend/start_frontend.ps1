@@ -9,9 +9,9 @@ Write-Host ""
 Write-Host "Checking Node.js version..." -ForegroundColor Yellow
 $nodeVersion = node --version 2>&1
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✓ Node $nodeVersion" -ForegroundColor Green
+    Write-Host "[OK] Node $nodeVersion" -ForegroundColor Green
 } else {
-    Write-Host "✗ Node.js not found. Please install Node.js 18+" -ForegroundColor Red
+    Write-Host "[ERROR] Node.js not found. Please install Node.js 18+" -ForegroundColor Red
     Write-Host "Download from: https://nodejs.org/" -ForegroundColor Yellow
     exit 1
 }
@@ -22,13 +22,13 @@ if (-Not (Test-Path "node_modules")) {
     Write-Host "Installing dependencies (this may take a few minutes)..." -ForegroundColor Yellow
     npm install
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✓ Dependencies installed" -ForegroundColor Green
+        Write-Host "[OK] Dependencies installed" -ForegroundColor Green
     } else {
-        Write-Host "✗ Failed to install dependencies" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to install dependencies" -ForegroundColor Red
         exit 1
     }
 } else {
-    Write-Host "✓ Dependencies already installed" -ForegroundColor Green
+    Write-Host "[OK] Dependencies already installed" -ForegroundColor Green
 }
 
 Write-Host ""
