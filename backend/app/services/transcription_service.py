@@ -1,12 +1,22 @@
 from typing import Tuple
 import numpy as np
 import structlog
-from app.services.whisper_service import WhisperService
+
+# Try to import real Whisper, fall back to mock if not available
+try:
+    from app.services.whisper_service import WhisperService
+    WHISPER_AVAILABLE = True
+except (ImportError, ModuleNotFoundError):
+    from app.services.whisper_service_mock import WhisperServiceMock as WhisperService
+    WHISPER_AVAILABLE = False
+
 from app.services.glossary_service import GlossaryService
 from app.services.question_detector import question_detector
 
 
 logger = structlog.get_logger()
+if not WHISPER_AVAILABLE:
+    logger.warning("Whisper not available, using mock service. Install faster-whisper for real transcription.")
 
 
 class TranscriptionService:
