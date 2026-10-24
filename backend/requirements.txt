@@ -14,7 +14,6 @@ torchaudio==2.1.1
 numpy<2.0
 librosa==0.10.1
 soundfile==0.12.1
-webrtcvad==2.0.10
 
 # Database
 sqlalchemy==2.0.23
