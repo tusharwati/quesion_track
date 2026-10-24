@@ -2,24 +2,23 @@
 
 ## Quick Installation
 
-Since you already have Python installed, let's install the packages directly:
-
 ### Step 1: Install Backend Dependencies
 
 Open PowerShell and navigate to the backend directory, then run:
 
 ```powershell
-pip install --user faster-whisper==1.0.0 torch==2.1.1 torchaudio==2.1.1 librosa==0.10.1 soundfile==0.12.1 webrtcvad==2.0.10 sqlalchemy==2.0.23 alembic==1.12.1 rapidfuzz==3.5.2 textblob==0.17.1 python-dotenv==1.0.0 aiofiles==23.2.1 httpx==0.25.2 pytest==7.4.3 pytest-asyncio==0.21.1 structlog==23.2.0 PyPDF2==3.0.1 pydantic-settings==2.1.0
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 ```
 
-**Note**: This will take 5-10 minutes as it downloads PyTorch (~2GB) and Whisper models.
+This installs all backend dependencies, including FastAPI and Uvicorn. The first install can take several minutes because it downloads PyTorch.
 
 ### Step 2: Start Backend
 
-After installation completes:
+With the virtual environment activated:
 
 ```powershell
-cd backend
 python run.py
 ```
 
@@ -72,13 +71,13 @@ Go to: **http://localhost:5173**
 If PyTorch download is too large or slow, you can install CPU-only version:
 
 ```powershell
-pip install --user torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+python -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
 ```
 
 Then install the rest:
 
 ```powershell
-pip install --user faster-whisper librosa soundfile webrtcvad sqlalchemy alembic rapidfuzz textblob python-dotenv aiofiles httpx pytest pytest-asyncio structlog PyPDF2 pydantic-settings
+python -m pip install fastapi "uvicorn[standard]" faster-whisper librosa soundfile webrtcvad sqlalchemy alembic rapidfuzz textblob python-dotenv aiofiles httpx pytest pytest-asyncio structlog PyPDF2 pydantic pydantic-settings
 ```
 
 ---
@@ -95,15 +94,14 @@ If you want to test the frontend without backend:
 
 ## Verify Installation
 
-Check if packages are installed:
+Check that the active Python can import the server dependency:
 
 ```powershell
-pip list | Select-String -Pattern "faster-whisper"
-pip list | Select-String -Pattern "torch"
-pip list | Select-String -Pattern "fastapi"
+python -m pip show uvicorn
+python -c "import uvicorn; print(uvicorn.__version__)"
 ```
 
-You should see version numbers for each.
+If that import fails, activate the backend virtual environment and run `python -m pip install -r requirements.txt` from the `backend` directory.
 
 ---
 
@@ -123,7 +121,7 @@ Once both are running:
 ## Common Issues
 
 ### "No module named 'faster_whisper'"
-- Run: `pip install --user faster-whisper`
+- Run: `python -m pip install faster-whisper`
 
 ### "Port 8000 already in use"
 - Another program is using port 8000
@@ -136,7 +134,7 @@ Once both are running:
 ### Backend starts but crashes
 - Check the error message in PowerShell
 - Likely missing a dependency
-- Install it with: `pip install --user <package-name>`
+- Install it with: `python -m pip install <package-name>`
 
 ---
 
@@ -145,13 +143,13 @@ Once both are running:
 If automatic installation has issues, install packages one at a time:
 
 ```powershell
-pip install --user fastapi
-pip install --user uvicorn[standard]
-pip install --user sqlalchemy
-pip install --user pydantic
-pip install --user pydantic-settings
-pip install --user python-dotenv
-pip install --user structlog
+python -m pip install fastapi
+python -m pip install "uvicorn[standard]"
+python -m pip install sqlalchemy
+python -m pip install pydantic
+python -m pip install pydantic-settings
+python -m pip install python-dotenv
+python -m pip install structlog
 # ... repeat for each package
 ```
 
